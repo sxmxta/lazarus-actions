@@ -1,0 +1,36 @@
+name: build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # aarch64
+  aarch64:
+    runs-on: ${{ matrix.operating-system }}
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+
+    strategy:
+      matrix:
+        operating-system: [ubuntu-22.04]
+        lazarus-versions: [2.2.4]
+        include:
+          - arch: aarch64
+            distro: ubuntu18.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Laz 环境
+      - name: Lazarus Build Environment
+        uses: sxmxta/lazarus@v1.0.6
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          with-cache: false
+          os-arch: arm64
+
+      - name: Show the artifact
+        run: |
+          ls -al "${PWD}"
