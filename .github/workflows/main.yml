@@ -33,4 +33,4 @@ jobs:
 
       - name: Show the artifact
         run: |
-          ls -al "${PWD}"
+          ls -al $RUNNER_WORKSPACE
